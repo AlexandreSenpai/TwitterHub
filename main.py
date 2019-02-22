@@ -2,10 +2,11 @@ import sys
 import time
 import twitterCredentials as tt
 
-consumer_key = 'BB8vQTryHnHraN6RRFkOWii1J'
-consumer_secret = '1TQxvt4x45b4lVKL41y9Z3x0g5i9eeZYQWBNC9UKHH6uMY6zrD'
-acess_token = '306761802-eGLDdWAAE06fi9kUy7ldS0PeT39hhgOAqVwp3ryX'
-acess_token_secret = 'WqZ2ZXVsDP4ONkCkZ0VTDGbFyXdIykaeD8mMPAphO4DhB'
+
+consumer_key = ''
+consumer_secret = ''
+acess_token = ''
+acess_token_secret = ''
 
 twitter = tt.Twitter(consumer_key, consumer_secret, acess_token, acess_token_secret)
 
