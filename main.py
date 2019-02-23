@@ -30,9 +30,17 @@ def main():
         if user_input == 'sair':
             isRunning = False
         elif user_input == '1':
-            write('Por favor, digite sua atualização de status: \n')
+            write('Com imagem? [Y/N]\n')
             user_input = input('> ')
-            twitter.request_POST(str(user_input))
+            write('Por favor, digite sua atualização de status: \n')
+            if user_input == 'y':
+                user_input = input('> ')
+                write('Endereço da imagem:\n')
+                image = input('> ')
+                twitter.request_POST_WITH_IMAGE(str(user_input), str(image))
+            else:
+                user_input = input('> ')
+                twitter.request_POST(str(user_input))
         elif user_input == '2':
             write('Streaming? [Y/N]\n')
             choice = input('> ')

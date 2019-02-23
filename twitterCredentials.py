@@ -34,6 +34,31 @@ class Twitter:
         api = self.init_API()
         api.request('statuses/update', {'status': request_info['status_data']['msg']})
 
+    def request_POST_WITH_IMAGE(self, msg, IMAGE_PATH):
+        request_info = {
+            'IP': socket.gethostbyname(socket.gethostname()),
+            'local_data': {
+                'date': str(datetime.now().strftime('%d/%m/%Y')),
+                'hour': str(datetime.now().strftime('%H:%M:%S'))
+            },
+            'status_data': {
+                'name': os.getlogin(),
+                'msg': msg
+            }
+        }
+        file = open(IMAGE_PATH, 'rb')
+        data = file.read()
+        api = self.init_API()
+        r = api.request('media/upload', None, {'media': data})
+        print('IMAGE UPLOAD: SUCESSO' if r.status_code == 200 else 'IMAGE UPLOAD: FALHA -> ' + r.text)
+        if r.status_code == 200:
+            media_id = r.json()['media_id']
+            r = api.request('statuses/update', {'status': msg, 'media_ids': media_id})
+            print('Status atualizado.\nStatus: {}\nData: {}\nHorario: {}\nIP: {}'.format(request_info['status_data']['msg'], 
+                                                                                         request_info['local_data']['date'], 
+                                                                                         request_info['local_data']['hour'],
+                                                                                         request_info['IP']))
+
     def search_TWEET(self, key='', stream=''):
         request_info = {
             'IP': socket.gethostbyname(socket.gethostname()),
@@ -51,7 +76,7 @@ class Twitter:
             request = api.request('statuses/filter', {'track': request_info['search_data']['key']})
         else:
             print('Modo: Fixo.')
-            request = api.request('search/tweets', {'q': request_info['search_data']['key']})
+            request = api.request('search/tweets', {'q': request_info['search_data']['key'], 'count':30})
 
         for item in request:
             print('#######################################################')
